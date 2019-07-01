@@ -1,0 +1,31 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+
+    <form method="post" style="width: 500px;height: 400px;margin: auto 50% auto auto">
+        <div class="form-group">
+            <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-user" style="width: auto"></i>
+                            </span>
+                <input id="txtLogin" runat="server" type="text" class="form-control" name="username" placeholder="Login" required="" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock" style="width: auto"></i>
+                            </span>
+                <input id="txtPassword" runat="server" type="password" class="form-control" name="password" placeholder="Password" required="" />
+            </div>
+        </div>
+        <div>
+            <span>{{ exception }}</span>
+        </div>
+        <button type="submit" id="btnLogin" runat="server" class="btn btn-default" >
+            Login <i class="glyphicon glyphicon-log-in"></i>
+        </button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+
+    <div id="wrapper" style="height: 100vh;width: 100%">
+        <h1>{{title}}</h1>
+        <div id="navbar">
+            <input type="text" id="ws_search" placeholder="search" />
+            <button id="nav_profile" class="navb" style="border-bottom: 1px solid #818181">Profile</button>
+            <button id="nav_chats" class="navb" style="border-bottom: 1px solid #818181">Chats</button>
+            <button id="nav_contacts" class="navb" style="border-bottom: 1px solid #818181">Friends</button>
+            <button id="nav_settings" class="navb">Settings</button>
+            <button id="logout" class="nav_log" onclick="logout()">Logout</button>
+        </div>
+        <div id="content"></div>
+        <script>
+                let ws = io.connect(`http://{{ host }}:3001`, {transports: ['websocket'], upgrade: false,secure:true}),token = localStorage.getItem("token") || "";
+                let uploader = new SocketIOFileClient(ws);
+                let url =  window.location.pathname.substr(1,window.location.pathname.length);
+
+                InitWS(ws);
+//                let delivery = new Delivery(ws);
+//                delivery.on('delivery.connect',function(delivery){
+//                    $('body').on('click','#avatar-upload', function (ev) {
+//                        ev.preventDefault();
+//
+//                        let fileEl = document.getElementById('avatar-input');
+//                        console.log(fileEl.files)
+//                        //uploader.upload(fileEl.files, {uploadTo: 'avatar'});
+//                        console.log('uploading')
+//                        let extraParams = {dir: 'avatar'};
+//                        delivery.send(fileEl.files[0], extraParams);
+//
+//                    })
+//                    $('body').on('change', '#image-input', function(ev) {
+//                        let fileEl = document.getElementById('image-input')
+//
+//                        let extraParams = {dir: 'posts'};
+//                        delivery.send(fileEl.files[0], extraParams);
+//                        console.log('uploading')
+//                        readURL(this);
+//                        ev.preventDefault();
+//                    });
+//                })
+
+
+
+
+                $( "#navbar" ).children('button').each(function( index ) {
+                    if($(this).attr('id').startsWith('nav_')){
+                        let url = $(this).attr('id').substr(4, $(this).attr('id').length)
+                        $(this).click(function () {
+                            // event emmited when connected
+                            ws.emit('request',{url: url})
+                        })
+                    }
+                });
+
+
+
+                let ID = function (length) {
+                    return Math.random().toString(36).substr(2, length);
+                }
+
+                function readURL(input) {
+
+                    if (input.files && input.files[0]) {
+                        let reader = new FileReader();
+                        reader.fileName=input.files[0].name
+                        let FileSize = input.files[0].size / 1024 / 1024; // in MB
+                        if (FileSize > 20) {
+                            alert('File size exceeds 20 MB');
+                            // $(file).val(''); //for clearing with Jquery
+                        } else {
+
+                        }
+                        let id = ID(15)
+                        reader.onloadstart=function (e) {
+                            $('#post_form_images').append('<img src="/images/icons/image_preview.png" id="' + id + '" class="img_upload" />')
+                        }
+                        reader.onload = function (e) {
+
+                            names.push(e.target.fileName)
+
+                            $('#' + id).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+                $('body').on('click', '#imbtn', function() {
+                    $('input[name=file]#image-input').click();
+                })
+                $('body').on('click','#display_logo',function () {
+                    $('#clk_back').css('display','block');
+                    $('#crop').css('display','block')
+                })
+
+
+
+
+
+
+                let post_int=0;
+                $('body').on('click', '.p_nextload', function () {
+                    post_int=post_int+5;
+                    ws.emit('loadfeed',{begin:post_int,end:post_int+5})
+                })
+                $('body').on('click', '.p_prevload', function () {
+                    post_int>0?(post_int=post_int-5):(null);
+                    ws.emit('loadfeed',{begin:post_int,end:post_int+5})
+                })
+
+                function Post(){
+                    let post_obj={}
+
+                    this.setText=function (text) {
+                        post_obj.text=text
+                    }
+                    this.setFiles=function (files) {
+                        post_obj.files=files
+                    }
+                    this.getObj=function () {
+                        return post_obj
+                    }
+                }
+
+
+
+
+
+
+
+                function logout() {
+
+                    ws.emit('logout')
+                    ws.on('loggedout',function (msg) {
+                        console.log('loggedout')
+                        ws.emit('request',{url: msg})
+                        history.pushState(null, null, `/${msg}`);
+                    })
+                }
+
+
+                $('#ws_search').focus(function () {
+                    ws.emit('request',{url: 'search'})
+                })
+                $('#ws_search').on('input',function(e) {
+
+                    let text = this.value
+
+                    ws.emit('find', {textinput: text})
+
+
+                })
+                ws.on('statusUpdate', function(data){
+                    console.log('test status' + data.status + data.id)
+                    $(".u_id[value='"+data.id+"']").siblings('.status').text(data.status)
+                })
+
+
+
+                $('body').on('mouseover','.chat_u',function () {
+                    $(this).css('width',`${$(this).text().length * 10}px`)
+                    $(this).css('margin-right',`${$(this).text().length*10}px`)
+                })
+                $('body').on('mouseleave','.chat_u',function () {
+                    $(this).css('margin-right',`0`)
+                    $(this).css('width',`10`)
+                })
+
+
+
+
+                $('body').on('click',".dropdown dt #cl", function() {
+
+                    console.log('load_f '+$('#cl').attr('loaded'))
+
+                    if($('#cl').attr('loaded')=="false"){
+                        ws.emit('load_chat_friends','')
+                        $('#cl').attr('loaded',"true")
+                    }
+
+                    $(".dropdown dd ul").slideToggle('fast');
+                });
+
+                $('body').on('click',".dropdown dd ul li a", function() {
+                    $(".dropdown dd ul").hide();
+                });
+
+                function getSelectedValue(id) {
+                    return $("#" + id).find("dt a span.value").html();
+                }
+
+                $('body').bind('click', function(e) {
+                    let $clicked = $(e.target);
+                    if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+                });
+
+
+
+
+
+
+
+
+
+
+        </script>
+    </div>
+
+{% endblock %}

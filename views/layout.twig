@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropit/0.5.1/jquery.cropit.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/posts.css'/>
+    <link rel='stylesheet' href='/stylesheets/images.css'/>
+    <link rel='stylesheet' href='/stylesheets/ui.dropdownchecklist.standalone.css'/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/client.js"></script>
+    <link rel="stylesheet" href="/stylesheets/croppie.css" />
+    <script src="/javascripts/croppie.js"></script>
+    <script src="/javascripts/delivery.js"></script>
+    <script src="/javascripts/socket-file-client.js"></script>
+    <script src="/javascripts/ws_api.js"></script>
+    <script src="//code.jquery.com/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/jquery.dropdown.css">
+
+    <script src="/javascripts/jquery.dropdown.js"></script>
+
+  </head>
+  <body>
+
+
+
+
+
+    {% block body %}{% endblock %}
+  <div id="clk_back"></div>
+  <script>
+
+      $(document).on('click', '.clk_back', function () {
+          // your function here
+          console.log('post')
+          $('#clk_back').css('display','block')
+      });
+      $('#clk_back').on('click',function () {
+          $('#clk_back').css('display','none')
+          $('.over_back').css('display','none')
+          $('#crop').css('display','none')
+      })
+      $(document).on('click', '.close-thick', function () {
+          console.log('aaaa')
+          $('#clk_back').css('display','none')
+          $('.over_back').css('display','none')
+          $('#image-cropper').css('display','none')
+          document.getElementsByTagName("input").value = "";
+      })
+
+
+
+
+  </script>
+  </body>
+</html>

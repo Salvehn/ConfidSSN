@@ -1,0 +1,80 @@
+
+<div class="ws_view" id="profile">
+    <h1>Profile</h1>
+    <br>
+    <br>
+
+
+
+    <div id="display_background">
+
+        <img id="display_logo" src="" onerror="this.src='/images/icons/no_avatar.png'"/>
+
+
+        <div id="crop">
+            <div id="crop-container">
+                <div id="upload-demo"></div>
+            </div>
+
+            <input type="file" id="avatar-input" name="avatar-input"/>
+            <button id="avatar-upload">Upload</button>
+        </div>
+        <div id="cred">
+            <h2 id="display_name" style="display: inline-block"></h2>
+            <h2 id="display_surname" style="display: inline-block"></h2>
+            <br>
+            <br>
+            <label id="display_birthdate"></label>
+        </div>
+    </div>
+    <div id="sepatator"></div>
+    <div id="profile_bar" style="width: 90%;height: 70px">
+        <input id="_post" class="clk_back" type="button"  value="Create New Post">
+    </div>
+
+    <div id="post_form" class="over_back">
+        <lable id="post_form_label">Create new post</lable>
+
+        <div contenteditable="true" aria-multiline="true" id="post_form_text" oninput=""></div>
+
+        <div class="close-thick">✖</div>
+
+        <div id="file-section">
+            <div class="image-upload">
+                <label for="image-input" >
+                    <i class="material-icons" id="imbtn">insert_photo</i>
+                </label>
+
+                <input id="image-input" style="display: none" name="attachImage" type="file" multiple/>
+            </div>
+            <div class="file-upload">
+                <label for="file-input">
+                    <i class="material-icons">insert_drive_file</i>
+                </label>
+
+                <input id="file-input" style="display: none" type="file" multiple/>
+
+            </div>
+        </div>
+        <table style="width: 60%;height: 300px;display: block">
+            <tbody id="post_form_images">
+
+            </tbody>
+        </table>
+        <div class="w3-section w3-light-grey" style="width: 200px">
+            <div class="w3-container w3-padding-small w3-green w3-center" style="width:0%; color:white;">0%</div>
+        </div>
+        <button id="post_form_publish">Publish</button>
+    </div>
+    <table id="posts">
+        <tbody id="posts_list">
+
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+//
+</script>

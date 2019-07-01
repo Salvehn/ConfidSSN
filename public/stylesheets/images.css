@@ -1,0 +1,61 @@
+#display_background {
+    width: 95%;
+    height: 400px;
+    position: relative;
+
+    background-size: cover;
+    background-position-y: -180px;
+}
+#display_logo{
+    border: 3px solid white;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 250px;
+    left: 50px;
+    cursor: pointer;
+    background-color: white;
+    z-index: 3;
+}
+#crop{
+    z-index: 6;
+    width: 500px;
+    height: 500px;
+    position: fixed;
+    background-color: white;
+    display: none;
+    top: 50%;
+    left: 60%;
+    margin-top: -250px; /* Negative half of height. */
+    margin-left: -400px;
+    overflow: hidden;
+}
+#crop-container{
+    margin-top: 50px;
+    height: 350px;
+    width: 500px;
+}
+#avatar-upload{
+    background-color: #5cb85c;
+    width: 70px;
+    height: 25px;
+    border: 0;
+}
+#avatar-upload:hover{
+    background-color: #7eb87f;
+
+}
+
+.cropit-preview-background {
+    opacity: .2;
+}
+
+/*
+ * If the slider or anything else is covered by the background image,
+ * use relative or absolute position on it
+ */
+input.cropit-image-zoom-input {
+    position: relative;
+}
+
+/* Limit the background image by adding overflow: hidden */
